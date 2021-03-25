@@ -25,6 +25,33 @@ void nft_inverse(double complex t[MAX_SIZE], double complex s[MAX_SIZE], int n) 
 }
 
 void fft(double complex s[MAX_SIZE], double complex t[MAX_SIZE], int n, int sign) {
+    //Passo 1: separar sinal s em 2: si e sp
+    double complex si[MAX_SIZE];
+    double complex sp[MAX_SIZE];
+    double complex tp[MAX_SIZE];
+    double complex ti[MAX_SIZE];
+
+    
+    for (int k = 0; k < n; k++) {
+        if (fmod(s[k], 2) == 0){
+            sp[k] = s[k];
+        }
+        else if (fmod(s[k], 2) != 0){
+            si[k] = s[k];
+        }
+    }
+    //Passo 2: recursiva do fourier
+
+
+    
+    fft(sp,tp,n/2,sign);
+    fft(si,ti,n/2,sign);
+
+    //meter formula aqui
+
+
+    //Passo 3: juntar sinais transformados ti e tp
+    //return funcao inteire, nn uma variavel
 }
 
 void fft_forward(double complex s[MAX_SIZE], double complex t[MAX_SIZE], int n) {
