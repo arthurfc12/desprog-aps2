@@ -30,28 +30,41 @@ void fft(double complex s[MAX_SIZE], double complex t[MAX_SIZE], int n, int sign
     double complex sp[MAX_SIZE];
     double complex tp[MAX_SIZE];
     double complex ti[MAX_SIZE];
+    int contp= 0;
+    int conti = 0;
 
+    if(n<2){
+        t[0] = s[0];
+        return;
+    }
     
     for (int k = 0; k < n; k++) {
-        if (fmod(s[k], 2) == 0){
-            sp[k] = s[k];
+        if (fmod(k, 2) == 0){
+            sp[contp] = s[k];
+            contp++;
         }
-        else if (fmod(s[k], 2) != 0){
-            si[k] = s[k];
+        else{
+            si[conti] = s[k];
+            conti++;
         }
     }
     //Passo 2: recursiva do fourier
 
-
-    
     fft(sp,tp,n/2,sign);
     fft(si,ti,n/2,sign);
 
     //meter formula aqui
 
-
     //Passo 3: juntar sinais transformados ti e tp
-    //return funcao inteire, nn uma variavel
+    for (int j = 0; j < n; j++) {
+            t[j] = tp[j] + ti[j] * cexp(sign * 2 * PI * j * I / n);
+    }
+
+    for (int i = 0; i < n; i++) {
+            t[i + (n/2)] = tp[i] - ti[i] * cexp(sign * 2 * PI * i * I / n);
+    }
+
+    
 }
 
 void fft_forward(double complex s[MAX_SIZE], double complex t[MAX_SIZE], int n) {
